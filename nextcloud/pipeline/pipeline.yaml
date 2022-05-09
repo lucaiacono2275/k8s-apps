@@ -1,0 +1,23 @@
+apiVersion: tekton.dev/v1beta1
+kind: Pipeline
+metadata:
+  name: build-nextcloud
+spec:
+  workspaces:
+      - name: pipeline-ws
+  tasks:
+    - name: clone
+      taskRef:
+        name: git-clone
+      workspaces:
+      - name: output
+        workspace: pipeline-ws
+    - name: build-image
+      taskRef:
+        name: docker-build
+      workspaces:
+      - name: source
+        workspace: pipeline-ws
+
+
+
