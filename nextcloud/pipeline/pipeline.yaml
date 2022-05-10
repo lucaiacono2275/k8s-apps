@@ -4,20 +4,41 @@ metadata:
   name: build-nextcloud
 spec:
   workspaces:
-      - name: pipeline-ws
+  - name: pipeline-ws
+  - name: dockerconfig
+  params: 
+  - name: nextcloud-version
+    type: string
+    description: "Nextcloud version to build"
   tasks:
     - name: clone
       taskRef:
         name: git-clone
+      params:
+      - name: url
+        value: "https://github.com/lucaiacono2275/k8s-apps"
       workspaces:
       - name: output
         workspace: pipeline-ws
     - name: build-image
       taskRef:
-        name: docker-build
+        name: kaniko
+      params:
+      - name: IMAGE
+        value: lucaiacono/apache-smb:$(params.nextcloud-version)
+      - name: EXTRA_ARGS
+        value: 
+          - "--build-arg"
+          - "VERSION=$(params.nextcloud-version)"
+      - name: CONTEXT
+        value: nextcloud/images/apache-smb
       workspaces:
       - name: source
         workspace: pipeline-ws
+      - name: dockerconfig
+        workspace: dockerconfig
+      runAfter:
+        - clone
 
 
 

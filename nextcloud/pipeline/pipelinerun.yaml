@@ -1,0 +1,22 @@
+apiVersion: tekton.dev/v1beta1
+kind: PipelineRun
+metadata:
+  generateName: build-nextcloud-
+spec:
+  pipelineRef:
+    name: build-nextcloud
+  params:
+  - name: nextcloud-version
+    value: "22.2"
+  workspaces:
+    - name: pipeline-ws # this workspace name must be declared in the Pipeline
+      volumeClaimTemplate:
+        spec:
+          accessModes:
+            - ReadWriteOnce # access mode may affect how you can use this volume in parallel tasks
+          resources:
+            requests:
+              storage: 1Gi
+    - name: dockerconfig
+      secret: 
+        secretName: kaniko-secret  
