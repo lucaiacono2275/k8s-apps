@@ -1,0 +1,30 @@
+image:
+  repository: portainer/portainer-ce
+  tag: latest
+  pullPolicy: IfNotPresent
+  
+ingress:
+  enabled: true
+  annotations: #{}
+    #kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/backend-protocol: HTTPS
+    cert-manager.io/cluster-issuer: letsencrypt-dns01-staging  
+  hosts:
+    - host: 'portainer.ihsws.it'
+      paths: 
+      - path: '/'
+  tls: 
+    - secretName: portainer-tls
+      hosts:
+      - portainer.ihsws.it
+
+service:
+  type: ClusterIP
+
+tls: 
+    force: true
+
+persistence:
+  size: "1Gi"
+  storageClass: nfs-client-w
+

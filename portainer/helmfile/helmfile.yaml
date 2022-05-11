@@ -1,0 +1,17 @@
+filepath: ""
+#environments:
+#  default:
+#    values:
+#    - ../../default.yaml
+namespace: portainer
+repositories:
+- name: portainer
+  url: https://portainer.github.io/k8s/
+releases:
+- chart: portainer/portainer
+  version: 1.0.28
+  name: portainer
+  values:
+  - values.yaml
+templates: {}
+renderedvalues: {}
