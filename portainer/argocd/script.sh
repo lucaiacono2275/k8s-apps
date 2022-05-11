@@ -1,0 +1,1 @@
+argocd app create portainer --repo https://github.com/lucaiacono2275/k8s-apps --path portainer/helmfile --dest-server https://kubernetes.default.svc --dest-namespace portainer --config-management-plugin helmfile

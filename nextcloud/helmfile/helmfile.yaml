@@ -3,14 +3,14 @@ filepath: ""
 #  default:
 #    values:
 #    - ../../default.yaml
-#namespace: portainer
+namespace: portainer
 repositories:
 - name: portainer
   url: https://portainer.github.io/k8s/
 releases:
 - chart: portainer/portainer
-  version: 1.0.28
-  name: portainer
+  version: 3.12.0
+  name: nginx-ingress
   values:
   - values.yaml
 templates: {}
