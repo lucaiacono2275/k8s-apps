@@ -10,7 +10,7 @@ ingress:
   annotations: 
     #kubernetes.io/ingress.class: nginx
     nginx.ingress.kubernetes.io/backend-protocol: HTTPS
-    cert-manager.io/cluster-issuer: {{ .Values.envconfig.clusterIssuerStaging }}
+    cert-manager.io/cluster-issuer: {{ .Values.envconfig.clusterIssuerProd }}
 
   hosts:
     - host: '{{ $hostname }}'
