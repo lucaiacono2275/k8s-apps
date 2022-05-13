@@ -1,0 +1,9 @@
+envconfig:
+  ingress:
+    domain: ihsws.it
+    realm: ihsws.it
+    tls:
+      email: luca.iacono@gmail.com
+      enabled: true
+  clusterIssuerStaging: letsencrypt-dns01-staging
+  clusterIssuerProd: letsencrypt-dns01-prod

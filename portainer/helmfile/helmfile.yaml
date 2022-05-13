@@ -1,8 +1,8 @@
 filepath: ""
-#environments:
-#  default:
-#    values:
-#    - ../../default.yaml
+environments:
+  default:
+    values:
+    - ../../default.yaml
 #namespace: portainer
 repositories:
 - name: portainer
@@ -12,6 +12,6 @@ releases:
   version: 1.0.28
   name: portainer
   values:
-  - values.yaml
+  - values.yaml.gotmpl
 templates: {}
 renderedvalues: {}
