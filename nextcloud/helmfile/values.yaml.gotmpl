@@ -1,0 +1,147 @@
+{{ $hostname := print .Release.Name "." .Values.envconfig.ingress.domain }}
+image:
+  repository: lucaiacono/apache-smb
+  tag: 22.2
+  pullPolicy: IfNotPresent
+
+ingress:
+  enabled: true
+  annotations: 
+    nginx.ingress.kubernetes.io/proxy-body-size: 4G
+    kubernetes.io/tls-acme: "true"
+    cert-manager.io/cluster-issuer: {{ .Values.envconfig.clusterIssuerStaging }}
+    nginx.ingress.kubernetes.io/server-snippet: |-
+      server_tokens off;
+      proxy_hide_header X-Powered-By;
+
+      rewrite ^/.well-known/webfinger /public.php?service=webfinger last;
+      rewrite ^/.well-known/host-meta /public.php?service=host-meta last;
+      rewrite ^/.well-known/host-meta.json /public.php?service=host-meta-json;
+      location = /.well-known/carddav {
+        return 301 $scheme://$host/remote.php/dav;
+      }
+      location = /.well-known/caldav {
+        return 301 $scheme://$host/remote.php/dav;
+      }
+      location = /robots.txt {
+        allow all;
+        log_not_found off;
+        access_log off;
+      }
+      location ~ ^/(?:build|tests|config|lib|3rdparty|templates|data)/ {
+        deny all;
+      }
+      location ~ ^/(?:autotest|occ|issue|indie|db_|console) {
+        deny all;
+      }
+{{- if .Values.envconfig.ingress.tls.enabled }}
+  tls:
+    - secretName: {{ .Release.Name }}-tls
+      hosts:
+        - {{ $hostname }}
+  labels: {}
+  path: /
+  pathType: Prefix
+{{- end }}     
+
+nextcloud:
+  host: {{ $hostname }}
+
+  existingSecret:
+    enabled: true
+    secretName: {{ .Release.Name }}-secret
+
+#  mail:
+#    enabled: false
+#    fromAddress: luca.iacono
+#    domain: gmail.com
+#    smtp:
+#      host: mail.postfix.svc.cluster.local
+#      #secure: ssl
+#      port: 587
+#      authtype: None
+#      #name: user
+#      #password: pass
+
+internalDatabase:
+  enabled: false
+
+##
+## External database configuration
+##
+externalDatabase:
+  enabled: false
+
+  ## Database user
+  user: nextcloud
+
+  ## Database name
+  database: nextcloud
+
+  ## Use a existing secret
+  existingSecret:
+    enabled: true
+    secretName: mariadb-nextcloud-secret
+    usernameKey: mariadb-username
+    passwordKey: mariadb-password
+
+##
+## MariaDB chart configuration
+##
+mariadb:
+  ## Whether to deploy a mariadb server to satisfy the applications database requirements. To use an external database set this to false and configure the externalDatabase parameters
+  enabled: true
+
+  auth:
+    database: nextcloud
+    username: nextcloud
+
+    existingSecret: mariadb-nextcloud-secret
+
+  architecture: standalone
+
+  primary:
+    persistence:
+      enabled: true
+      storageClass: local-sc
+      accessMode: ReadWriteOnce
+      size: 8Gi  
+
+redis:
+  enabled: false
+  usePassword: false
+
+## Cronjob to execute Nextcloud background tasks
+## ref: https://docs.nextcloud.com/server/latest/admin_manual/configuration_server/background_jobs_configuration.html#webcron
+##
+cronjob:
+  enabled: false
+
+## Enable persistence using Persistent Volume Claims
+## ref: http://kubernetes.io/docs/user-guide/persistent-volumes/
+##
+persistence:
+  # Nextcloud Data (/var/www/html)
+  enabled: true
+  ## nextcloud data Persistent Volume Storage Class
+  ## If defined, storageClassName: <storageClass>
+  ## If set to "-", storageClassName: "", which disables dynamic provisioning
+  ## If undefined (the default) or set to null, no storageClassName spec is
+  ##   set, choosing the default provisioner.  (gp2 on AWS, standard on
+  ##   GKE, AWS & OpenStack)
+  ##
+  storageClass: local-path
+
+  accessMode: ReadWriteMany
+  size: 8Gi
+
+  ## Use an additional pvc for the data directory rather than a subpath of the default PVC
+  ## Useful to store data on a different storageClass (e.g. on slower disks)
+  nextcloudData:
+    enabled: true
+    #subPath: 
+    annotations: {}
+    storageClass: nfs-client-w
+    # existingClaim:
+    accessMode: ReadWriteMany
+    size: 8Gi  

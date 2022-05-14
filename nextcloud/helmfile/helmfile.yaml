@@ -1,17 +1,18 @@
 filepath: ""
-#environments:
-#  default:
-#    values:
-#    - ../../default.yaml
-namespace: portainer
+environments:
+  default:
+    values:
+    - ../../default.yaml
 repositories:
-- name: portainer
-  url: https://portainer.github.io/k8s/
+- name: nextcloud
+  url: https://nextcloud.github.io/helm/
 releases:
-- chart: portainer/portainer
-  version: 3.12.0
-  name: nginx-ingress
+- chart: ../charts/addon
+  name: addon
+- chart: nextcloud/nextcloud
+  version: 2.14.2
+  name: nextcloud
   values:
-  - values.yaml
+  - values.yaml.gotmpl
 templates: {}
 renderedvalues: {}
