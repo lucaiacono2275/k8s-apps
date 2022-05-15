@@ -39,10 +39,11 @@ ingress:
     - secretName: {{ .Release.Name }}-tls
       hosts:
         - {{ $hostname }}
+{{- end }}     
+
   labels: {}
   path: /
   pathType: Prefix
-{{- end }}     
 
 nextcloud:
   host: {{ $hostname }}
