@@ -68,8 +68,12 @@ nextcloud:
 #      #name: user
 #      #password: pass
 
-  phpConfigs: |-
-    default_phone_region: GB
+  configs: 
+    settings.config.php: |-
+      <?php
+      $CONFIG = array (
+        'default_phone_region': IT
+      );
 
 
 internalDatabase:

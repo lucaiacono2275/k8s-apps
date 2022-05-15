@@ -7,7 +7,7 @@ spec:
     name: build-nextcloud
   params:
   - name: nextcloud-version
-    value: "23.0.4"
+    value: "24.0.0"
   workspaces:
     - name: pipeline-ws # this workspace name must be declared in the Pipeline
       volumeClaimTemplate:
