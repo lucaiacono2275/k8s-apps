@@ -52,6 +52,10 @@ nextcloud:
     enabled: true
     secretName: {{ .Release.Name }}-secret
 
+  extraEnv:
+    - name: OVERWRITEPROTOCOL
+      value: https
+
 #  mail:
 #    enabled: false
 #    fromAddress: luca.iacono
