@@ -1,0 +1,18 @@
+filepath: ""
+environments:
+  default:
+    values:
+    - ../../default.yaml
+repositories:
+- name: bokysan
+  url: https://bokysan.github.io/docker-postfix/
+releases:
+- chart: ../charts/addon
+  name: addon
+- chart: bokysan/mail
+  version: 3.5.0
+  name: postfix
+  values:
+  - values.yaml.gotmpl
+templates: {}
+renderedvalues: {}

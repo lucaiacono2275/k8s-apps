@@ -1,0 +1,1 @@
+argocd app create postfix --repo https://github.com/lucaiacono2275/k8s-apps --path postfix/helmfile --dest-server https://kubernetes.default.svc --dest-namespace postfix --config-management-plugin helmfile
