@@ -13,6 +13,6 @@ releases:
   version: 3.5.0
   name: postfix
   values:
-  - values.yaml.gotmpl
+  - values.mailjet.yaml.gotmpl
 templates: {}
 renderedvalues: {}
