@@ -1,3 +1,12 @@
+# Tell helm to restart (recreate) pods on every deploy. Setting this to true will inject
+# `date/deploy-date: <timestamp>` annotation into pod specification for StateFulset. This
+# ensures that the Pod is recreated with the new changes.
+#
+# Feel free to disable this but doing so **IS IT YOUR OWN RISK**. By disabling this feature
+# you might run into issues where some changes are not reflected on the Pod. If you experience
+# this with this setting set to `false` the first thing to try out is to restart / delete
+# a pod and let `StatefulSet` recreate it.
+recreateOnRedeploy: true
 
 # Auto-generate certificates for the server and mount them into Postfix volume
 certs:
