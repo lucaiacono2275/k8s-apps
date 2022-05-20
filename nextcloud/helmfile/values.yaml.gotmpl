@@ -56,17 +56,17 @@ nextcloud:
     - name: OVERWRITEPROTOCOL
       value: https
 
-#  mail:
-#    enabled: false
-#    fromAddress: luca.iacono
-#    domain: gmail.com
-#    smtp:
-#      host: mail.postfix.svc.cluster.local
-#      #secure: ssl
-#      port: 587
-#      authtype: None
-#      #name: user
-#      #password: pass
+  mail:
+    enabled: true
+    fromAddress: nextcloud@ihsws.it
+    domain: ihsws.it
+    smtp:
+      host: postfix-mail.postfix.svc.cluster.local
+      #secure: ssl
+      port: 587
+      authtype: None
+      #name: user
+      #password: pass
 
   configs: 
     settings.config.php: |-
