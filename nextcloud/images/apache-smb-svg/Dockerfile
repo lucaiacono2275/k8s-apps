@@ -7,4 +7,5 @@ RUN apt-get update && \
     && apt install smbclient libsmbclient-dev && \
     pecl install smbclient && \
     docker-php-ext-enable smbclient && \
+    docker-php-ext-install bz2 && \
     rm -rf /var/lib/apt/lists/*
