@@ -1,7 +1,7 @@
 {{ $hostname := print .Release.Name "." .Values.envconfig.ingress.domain }}
 image:
-  repository: lucaiacono/apache-smb
-  tag: 23.0.4
+  repository: lucaiacono/apache-smb-svg
+  tag: 24.0.1
   pullPolicy: IfNotPresent
 
 ingress:

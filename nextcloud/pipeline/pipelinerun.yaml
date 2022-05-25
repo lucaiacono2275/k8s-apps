@@ -9,7 +9,7 @@ spec:
   - name: nextcloud-image
     value: "lucaiacono/apache-smb-svg"
   - name: nextcloud-version
-    value: "24.0.0"
+    value: "24.0.1"
   - name: nextcloud-dir
     value: "apache-smb-svg"
   workspaces:
