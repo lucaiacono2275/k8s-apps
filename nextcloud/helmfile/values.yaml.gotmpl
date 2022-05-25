@@ -55,6 +55,8 @@ nextcloud:
   extraEnv:
     - name: OVERWRITEPROTOCOL
       value: https
+    - name: OVERWRITEHOST
+      value: {{ $hostname }}
 
   mail:
     enabled: false
