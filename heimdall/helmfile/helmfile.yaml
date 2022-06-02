@@ -1,0 +1,16 @@
+filepath: ""
+environments:
+  default:
+    values:
+    - ../../default.yaml
+repositories:
+- name: k8s-at-home
+  url: https://k8s-at-home.com/charts/
+releases:
+- chart: k8s-at-home/heimdall
+  version: 8.3.2
+  name: heimdall
+  values:
+  - values.yaml.gotmpl
+templates: {}
+renderedvalues: {}

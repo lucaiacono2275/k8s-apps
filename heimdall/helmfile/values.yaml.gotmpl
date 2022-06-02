@@ -1,0 +1,50 @@
+{{ $hostname := print .Release.Name "." .Values.envconfig.ingress.domain }}
+
+env:
+  # -- Set the container timezone
+    TZ: IT
+
+
+
+ingress:
+    main:
+        # -- Enables or disables the ingress
+        enabled: true
+
+        # -- Make this the primary ingress (used in probes, notes, etc...).
+        # If there is more than 1 ingress, make sure that only 1 ingress is marked as primary.
+        primary: true
+
+        # -- Provide additional annotations which may be required.
+        annotations: 
+            kubernetes.io/tls-acme: "true"
+            cert-manager.io/cluster-issuer: {{ .Values.envconfig.clusterIssuerProd }}
+
+
+        ## Configure the hosts for the ingress
+        hosts:
+        -  # -- Host address. Helm template can be passed.
+            host: {{ $hostname }}
+            ## Configure the paths for the host
+            paths:
+            -  # -- Path.  Helm template can be passed.
+                path: /
+                # -- Ignored if not kubeVersion >= 1.14-0
+                pathType: Prefix
+                service:
+                # -- Overrides the service name reference for this path
+                name:
+                # -- Overrides the service port reference for this path
+                port:
+
+{{- if .Values.envconfig.ingress.tls.enabled }}
+        tls:
+        - secretName: {{ .Release.Name }}-tls
+          hosts:
+          - {{ $hostname }}
+{{- end }}     
+
+
+persistence:
+  config:
+    enabled: true
